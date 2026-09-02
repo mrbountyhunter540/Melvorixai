@@ -1,26 +1,260 @@
 @import "tailwindcss";
 
+@theme {
+  /* =========================================================
+     MELVORIX — COLOR SYSTEM
+     ========================================================= */
+
+  --color-melvorix-bg: #0b0f19;
+  --color-melvorix-surface: #131826;
+  --color-melvorix-surface-soft: #0f1420;
+
+  --color-melvorix-indigo: #6366f1;
+  --color-melvorix-indigo-dark: #4f46e5;
+
+  --color-melvorix-cyan: #22d3ee;
+
+  --color-melvorix-text: #f4f5f7;
+  --color-melvorix-muted: #94a3b8;
+
+  --color-melvorix-success: #34d399;
+  --color-melvorix-warning: #fbbf24;
+  --color-melvorix-error: #f87171;
+
+  --color-melvorix-border: rgba(148, 163, 184, 0.12);
+  --color-melvorix-border-strong: rgba(148, 163, 184, 0.2);
+
+  /* =========================================================
+     TYPOGRAPHY
+     ========================================================= */
+
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
+
+  /* =========================================================
+     RADIUS
+     ========================================================= */
+
+  --radius-melvorix-sm: 10px;
+  --radius-melvorix-md: 14px;
+  --radius-melvorix-lg: 18px;
+  --radius-melvorix-xl: 24px;
+
+  /* =========================================================
+     SHADOWS
+     ========================================================= */
+
+  --shadow-melvorix-card:
+    0 20px 60px rgba(0, 0, 0, 0.35);
+
+  --shadow-melvorix-glow:
+    0 0 80px rgba(99, 102, 241, 0.16);
+
+  --shadow-melvorix-glow-cyan:
+    0 0 80px rgba(34, 211, 238, 0.1);
+}
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+
+  --melvorix-background: #0b0f19;
+  --melvorix-surface: #131826;
+  --melvorix-foreground: #f4f5f7;
+  --melvorix-muted: #94a3b8;
+
+  --melvorix-indigo: #6366f1;
+  --melvorix-cyan: #22d3ee;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--melvorix-background);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(99, 102, 241, 0.09),
+      transparent 35%
+    ),
+    var(--melvorix-background);
+
+  color: var(--melvorix-foreground);
+
+  font-family: var(--font-inter), Inter, sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.35);
+  color: #ffffff;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #080b12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252b3a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #343b50;
+}
+
+/* =========================================================
+   TYPOGRAPHY UTILITIES
+   ========================================================= */
+
+.font-display {
+  font-family: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+}
+
+.font-mono {
+  font-family: var(--font-jetbrains), "JetBrains Mono", monospace;
+}
+
+/* =========================================================
+   CONTAINER
+
+   Previously this was `width: min(100% - 40px, 1280px)`, which
+   only ever produced 20px of side spacing on desktop (40px ÷ 2)
+   and 16px on mobile — far too thin, and the actual cause of
+   content hugging the left edge site-wide (nav, hero, every
+   section, footer all use this one class).
+
+   Switched to the conventional max-width + responsive
+   padding-inline pattern: generous, breakpoint-aware side
+   spacing that scales up on larger screens, matching typical
+   premium SaaS layouts (24px mobile → 32px tablet → 64px
+   desktop → capped at 96px on very wide screens).
+   ========================================================= */
+
+.melvorix-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 640px) {
+  .melvorix-container {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .melvorix-container {
+    padding-inline: 64px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .melvorix-container {
+    padding-inline: 96px;
+  }
+}
+
+/* =========================================================
+   PREMIUM GLASS
+   ========================================================= */
+
+.melvorix-glass {
+  background: rgba(19, 24, 38, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* =========================================================
+   GRADIENT TEXT
+   ========================================================= */
+
+.melvorix-gradient-text {
+  background: linear-gradient(
+    100deg,
+    #f4f5f7 0%,
+    #f4f5f7 35%,
+    #a5b4fc 70%,
+    #22d3ee 100%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* =========================================================
+   PREMIUM GRID
+   ========================================================= */
+
+.melvorix-grid {
+  background-image:
+    linear-gradient(
+      rgba(148, 163, 184, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+}
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--melvorix-indigo);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
