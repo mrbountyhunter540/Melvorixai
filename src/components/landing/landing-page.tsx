@@ -1,4 +1,3 @@
-
 "use client";
 import Image from "next/image";
 import {
@@ -35,6 +34,65 @@ import { siteConfig } from "@/config/site";
 const whyChooseIcons = [GraduationCap, Code2, Rocket, Trophy];
 const statIcons = [Users, Briefcase, UserCheck, TrendingUp];
 const studioIcons = [Cpu, Code2, Settings2, BarChart3];
+/* =========================================================
+   TEAM
+   ========================================================= */
+
+const teamMembers = [
+
+  {
+    name: "Awais Khan",
+    role: "Founder & Chief Executive Officer",
+    shortRole: "CEO",
+    bio: "Drives the company’s vision, operations, and strategic growth while turning ambitious ideas into scalable opportunities.",
+    image: "/images/team/awais-khan1.jpg",
+    phone: "",
+    linkedin: "#",
+  },
+
+    {
+    name: "Naeem Abbas",
+    role: "Founder & Chief Growth Officer",
+    shortRole: "CGO",
+    bio: "Focuses on growth, partnerships, and market expansion to connect Melvorix’s capabilities with meaningful opportunities.",
+    image: "/images/team/naeem-abbas.jpg",
+    phone: "",
+    linkedin: "#",
+  },
+
+   {
+    name: "Mam Saleem Akhtar",
+    role: "Director of Learning & Development",
+    shortRole: "DLD",
+    bio: "Shapes the learning experience at Melvorix, helping students develop practical skills that translate into real-world opportunities.",
+    image: "/images/team/saleem-akhtar4.jpg",
+    phone: "",
+    linkedin: "#",
+  },
+
+  {
+    name: "Burhan Khan",
+    role: "Founder & Chief Technology Officer",
+    shortRole: "CTO",
+    bio: "Leads Melvorix’s technology vision, building AI-powered systems and digital solutions designed for real-world impact.",
+    image: "/images/team/burhan-khan.jpg",
+    phone: "+923037738456",
+    linkedin: "#",
+  },
+  
+  {
+    name: "Azhar Fareed",
+    role: "Founder & Chief AI Officer",
+    shortRole: "CAIO",
+    bio: "Leads AI innovation at Melvorix, exploring intelligent systems and emerging technologies that shape the future of digital work.",
+    image: "/images/team/azhar-fareed.jpg",
+    phone: "",
+    linkedin: "#",
+  },
+
+ 
+];
+
 
 /* =========================================================
    CHARACTER HAND ANCHOR
@@ -706,6 +764,123 @@ export function LandingPage() {
         </div>
       </section>
 
+
+      {/* =====================================================
+          TEAM
+      ===================================================== */}
+
+      <section
+        id="team"
+        className="relative overflow-hidden border-b border-white/[0.05] py-28 sm:py-36"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[720px] -translate-x-1/2 rounded-full bg-indigo-500/[0.055] blur-[120px]"
+        />
+
+        <div className="melvorix-container relative">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-400">
+              03 / The People Behind Melvorix
+            </span>
+
+            <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
+              Built by people who{" "}
+              <span className="melvorix-gradient-text">build.</span>
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-xl text-base leading-8 text-slate-400">
+              A multidisciplinary team combining technology, AI, education,
+              and growth to turn ambitious ideas into real-world outcomes.
+            </p>
+          </div>
+
+          <div className="mx-auto mt-16 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-6">
+            {teamMembers.map((member, index) => (
+              <article
+                key={member.name}
+                className={[
+                  "group relative overflow-hidden rounded-2xl border border-white/[0.08]",
+                  "bg-white/[0.025] transition-all duration-500",
+                  "hover:-translate-y-1 hover:border-indigo-400/20 hover:bg-white/[0.04]",
+                  "lg:col-span-2",
+                  index === 3 ? "lg:col-start-2" : "",
+                  index === 4 ? "lg:col-start-4" : "",
+                ].join(" ")}
+              >
+                <div className="relative aspect-[4/4.5] overflow-hidden bg-[#111827]">
+                  <Image
+                    src={member.image}
+                    alt={`${member.name} — ${member.role}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover object-center grayscale-[15%] transition duration-700 group-hover:scale-[1.035] group-hover:grayscale-0"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-transparent to-transparent opacity-90" />
+
+                  <div className="absolute left-5 top-5">
+                    <span className="inline-flex rounded-full border border-white/10 bg-[#0B0F19]/75 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.16em] text-slate-300 backdrop-blur-md">
+                      {member.shortRole}
+                    </span>
+                  </div>
+
+                  <div className="pointer-events-none absolute -bottom-16 left-1/2 h-32 w-32 -translate-x-1/2 rounded-full bg-indigo-500/20 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
+                </div>
+
+                <div className="p-6">
+                  <h3 className="font-display text-lg font-semibold tracking-[-0.02em] text-white">
+                    {member.name}
+                  </h3>
+
+                  <p className="mt-1 text-xs font-medium text-indigo-400">
+                    {member.role}
+                  </p>
+
+                  <p className="mt-4 text-sm leading-6 text-slate-500">
+                    {member.bio}
+                  </p>
+
+                  <div className="mt-6 flex items-center gap-2 border-t border-white/[0.06] pt-5">
+                    <a
+                      href={member.linkedin}
+                      aria-label={`${member.name} on LinkedIn`}
+                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.02] text-slate-500 transition hover:border-indigo-400/20 hover:bg-indigo-400/[0.06] hover:text-indigo-400"
+                    >
+                      <span className="text-xs font-bold">in</span>
+                    </a>
+
+                    {member.phone && (
+                      <a
+                        href={`tel:${member.phone}`}
+                        aria-label={`Contact ${member.name}`}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.02] text-slate-500 transition hover:border-cyan-400/20 hover:bg-cyan-400/[0.06] hover:text-cyan-400"
+                      >
+                        <MessageCircle size={15} />
+                      </a>
+                    )}
+
+                    <span className="ml-auto font-mono text-[10px] uppercase tracking-[0.14em] text-slate-600">
+                      Melvorix Team
+                    </span>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mx-auto mt-14 flex max-w-3xl items-center justify-center gap-4 text-center">
+            <div className="hidden h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.08] sm:block" />
+
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-slate-600">
+              Technology · Intelligence · Education · Growth
+            </p>
+
+            <div className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08] sm:block" />
+          </div>
+        </div>
+      </section>
+
       {/* =====================================================
           PROCESS
       ===================================================== */}
@@ -714,7 +889,7 @@ export function LandingPage() {
         <div className="melvorix-container">
           <div className="mx-auto max-w-2xl text-center">
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-400">
-              03 / How We Build
+              04 / How We Build
             </span>
 
             <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
@@ -785,7 +960,7 @@ export function LandingPage() {
         <div className="melvorix-container">
           <div className="mx-auto max-w-2xl text-center">
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-400">
-              04 / What Our Students Say
+              05 / What Our Students Say
             </span>
 
             <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
@@ -867,7 +1042,7 @@ export function LandingPage() {
         <div className="melvorix-container grid gap-14 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
-              05 / Questions, Answered
+              06 / Questions, Answered
             </span>
 
             <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
@@ -952,7 +1127,7 @@ export function LandingPage() {
         <div className="melvorix-container relative grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-indigo-400">
-              06 / Ready to Start Your Journey?
+              07 / Ready to Start Your Journey?
             </span>
 
             <h2 className="mt-6 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl lg:text-6xl">

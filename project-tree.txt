@@ -125,6 +125,7 @@ melvorix1
 │   ├── file.svg
 │   ├── globe.svg
 │   ├── melvorix-logo.png
+│   ├── melvorix-mark.png
 │   ├── next.svg
 │   ├── vercel.svg
 │   └── window.svg
