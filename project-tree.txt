@@ -124,13 +124,21 @@ melvorix1
 │   ├── videos
 │   ├── file.svg
 │   ├── globe.svg
+│   ├── melvorix-logo.png
 │   ├── next.svg
 │   ├── vercel.svg
 │   └── window.svg
 ├── src
 │   ├── app
+│   │   ├── (auth)
+│   │   ├── (marketing)
+│   │   │   └── layout.tsx
 │   │   ├── about
 │   │   │   └── page.tsx
+│   │   ├── admin
+│   │   ├── api
+│   │   │   └── enrollments
+│   │   │       └── route.ts
 │   │   ├── auth
 │   │   │   └── callback
 │   │   │       └── route.ts
@@ -144,41 +152,83 @@ melvorix1
 │   │   │   └── page.tsx
 │   │   ├── dashboard
 │   │   │   └── page.tsx
+│   │   ├── instructor
 │   │   ├── login
 │   │   │   ├── reset
 │   │   │   │   └── page.tsx
+│   │   │   ├── LoginForm.tsx
 │   │   │   └── page.tsx
 │   │   ├── privacy
 │   │   │   └── page.tsx
 │   │   ├── register
-│   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── RegisterForm.tsx
+│   │   ├── student
 │   │   ├── terms
 │   │   │   └── page.tsx
-│   │   └── update-password
-│   │       └── page.tsx
+│   │   ├── update-password
+│   │   │   └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
 │   ├── components
+│   │   ├── academy
+│   │   │   └── academy-section.tsx
+│   │   ├── admin
 │   │   ├── auth
 │   │   │   ├── auth-shell.tsx
 │   │   │   └── sign-out-button.tsx
 │   │   ├── contact
 │   │   │   └── contact-form.tsx
 │   │   ├── courses
-│   │   │   └── enroll-confirm-button.tsx
+│   │   │   ├── course-section.tsx
+│   │   │   ├── enroll-confirm-button.tsx
+│   │   │   └── enrollment-form.tsx
+│   │   ├── hero
+│   │   │   ├── character-anchor.ts
+│   │   │   ├── character-stage.tsx
+│   │   │   ├── course-card.tsx
+│   │   │   ├── melvorix-hero.tsx
+│   │   │   ├── r3f-character.tsx
+│   │   │   └── types.ts
+│   │   ├── landing
+│   │   │   └── landing-page.tsx
 │   │   ├── layout
 │   │   │   ├── Footer.tsx
-│   │   │   └── Navbar.tsx
+│   │   │   ├── Navbar.tsx
+│   │   │   └── newsletter-form.tsx
+│   │   ├── lms
+│   │   ├── marketing
+│   │   ├── shared
 │   │   └── ui
+│   │       ├── badge.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
 │   │       ├── input.tsx
-│   │       └── label.tsx
+│   │       ├── label.tsx
+│   │       └── separator.tsx
 │   ├── config
+│   │   └── site.ts
+│   ├── hooks
 │   ├── lib
-│   │   └── supabase
-│   │       ├── client.ts
-│   │       └── server.ts
+│   │   ├── auth
+│   │   ├── db
+│   │   ├── payments
+│   │   ├── storage
+│   │   ├── supabase
+│   │   │   ├── client.ts
+│   │   │   └── server.ts
+│   │   ├── utils
+│   │   ├── validation
+│   │   └── utils.ts
+│   ├── styles
+│   ├── types
 │   └── proxy.ts
 ├── supabase
 │   └── schema.sql
 ├── .env
+├── .env.local
 ├── .gitignore
 ├── AGENTS.md
 ├── CLAUDE.md

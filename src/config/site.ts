@@ -75,7 +75,7 @@ export const siteConfig = {
     },
   ],
 
-  courses: [
+    courses: [
     {
       id: "ai-automation",
       number: "01",
@@ -85,11 +85,12 @@ export const siteConfig = {
         "Build intelligent agents, automate workflows and create systems that work while you sleep.",
       modules: "12 Modules",
       lessons: "48 Lessons",
-      price: "$199",
-      oldPrice: "$299",
-      discount: "33% OFF",
+      price: "20,000 PKR",
+      oldPrice: "$199",
+      discount: null,
       accent: "indigo",
     },
+
     {
       id: "cybersecurity",
       number: "02",
@@ -99,38 +100,55 @@ export const siteConfig = {
         "Learn practical defensive security, risk management and modern protection systems.",
       modules: "10 Modules",
       lessons: "40 Lessons",
-      price: "$179",
-      oldPrice: "$259",
-      discount: "31% OFF",
+      price: "25,000 PKR",
+      oldPrice: "$179",
+      discount: null,
       accent: "cyan",
     },
+
     {
       id: "data-analytics",
       number: "03",
       category: "Data",
-      title: "Data & Analytics",
+      title: "Data Analytics",
       description:
-        "Turn raw data into decisions through analytics, dashboards and predictive insight.",
+        "Turn raw data into useful insights through analytics, visualization and modern data workflows.",
       modules: "11 Modules",
       lessons: "44 Lessons",
-      price: "$189",
-      oldPrice: "$279",
-      discount: "32% OFF",
+      price: "25,000 PKR",
+      oldPrice: "$189",
+      discount: null,
       accent: "indigo",
     },
+
     {
       id: "digital-automation",
       number: "04",
-      category: "Automation",
-      title: "Digital Automation",
+      category: "Marketing / Growth",
+      title: "Digital Marketing",
       description:
-        "Design end-to-end automation systems that save time and reduce operational costs.",
+        "Build modern digital marketing systems using content, SEO, paid media, analytics and automation.",
       modules: "9 Modules",
       lessons: "36 Lessons",
-      price: "$169",
-      oldPrice: "$249",
-      discount: "32% OFF",
+      price: "15,000 PKR",
+      oldPrice: "$169",
+      discount: null,
       accent: "cyan",
+    },
+
+    {
+      id: "social-media-automation",
+      number: "05",
+      category: "Social Media / Automation",
+      title: "Social Media Automation",
+      description:
+        "Learn how to build scalable social media systems using AI, automation, content workflows and data-driven growth strategies.",
+      modules: "4 Modules",
+      lessons: "16 Lessons",
+      price: "15,000 PKR",
+      oldPrice: null,
+      discount: null,
+      accent: "indigo",
     },
   ] as const,
 

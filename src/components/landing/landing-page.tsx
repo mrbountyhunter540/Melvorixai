@@ -1,5 +1,6 @@
-"use client";
 
+"use client";
+import Image from "next/image";
 import {
   ArrowRight,
   Award,
@@ -16,11 +17,10 @@ import {
   Send,
   Settings2,
   Star,
-  Trophy,
   TrendingUp,
+  Trophy,
   UserCheck,
   Users,
-  Wrench,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -37,11 +37,7 @@ const statIcons = [Users, Briefcase, UserCheck, TrendingUp];
 const studioIcons = [Cpu, Code2, Settings2, BarChart3];
 
 /* =========================================================
-   Where the open palm sits within the character frame, as a
-   percentage of the frame's own rendered box. This is the ONLY
-   thing that should ever need nudging if the pose changes —
-   everything else (card height, breakpoint, font-load reflow)
-   is handled automatically below.
+   CHARACTER HAND ANCHOR
    ========================================================= */
 
 const HAND_ANCHOR = { left: "9%", top: "27%" };
@@ -60,26 +56,7 @@ export function LandingPage() {
   const course = siteConfig.courses[activeCourse];
 
   /* ---------------------------------------------------------
-     DYNAMIC CLEARANCE — measures the card's real height and
-     the frame's real height, then reserves exactly enough space
-     ABOVE THE FRAME — scoped to the right column only — so the
-     card can never overlap "Why Choose Melvorix" above it, and
-     the left column's heading is never affected.
-
-     IMPORTANT: this uses CALLBACK REFS, not useRef + a
-     useEffect keyed on activeCourse. The card is wrapped in
-     <AnimatePresence mode="wait">, which delays mounting the
-     NEW card until the OLD one finishes its exit animation —
-     that delay is driven by Framer Motion's own timers, not by
-     React's render/commit cycle. A useEffect tied to
-     `activeCourse` fires immediately on click, before that new
-     card exists in the DOM, so it would measure a stale or
-     null node and silently stop updating `clearance` — which is
-     exactly what let the card bleed into the section above
-     again. A callback ref instead fires at the exact moment
-     React actually attaches the new card node, no matter how
-     much later that happens, so the measurement is always
-     correct.
+     DYNAMIC CLEARANCE
   --------------------------------------------------------- */
 
   const frameElRef = useRef<HTMLDivElement | null>(null);
@@ -90,17 +67,21 @@ export function LandingPage() {
   const recomputeClearance = useCallback(() => {
     const frame = frameElRef.current;
     const card = cardElRef.current;
+
     if (!frame || !card) return;
 
-    const anchorTopPx = (frame.offsetHeight * parseFloat(HAND_ANCHOR.top)) / 100;
+    const anchorTopPx =
+      (frame.offsetHeight * parseFloat(HAND_ANCHOR.top)) / 100;
+
     const overflow = card.offsetHeight - anchorTopPx;
-    // 24px breathing room above the card even when it's tight
+
     setClearance(overflow > 0 ? Math.ceil(overflow) + 24 : 0);
   }, []);
 
   const setFrameNode = useCallback(
     (node: HTMLDivElement | null) => {
       frameElRef.current = node;
+
       if (node) {
         resizeObserverRef.current?.observe(node);
         recomputeClearance();
@@ -109,10 +90,10 @@ export function LandingPage() {
     [recomputeClearance],
   );
 
-  // Fires exactly when the (possibly delayed) card node mounts.
   const setCardNode = useCallback(
     (node: HTMLDivElement | null) => {
       cardElRef.current = node;
+
       if (node) {
         resizeObserverRef.current?.observe(node);
         recomputeClearance();
@@ -123,8 +104,15 @@ export function LandingPage() {
 
   useEffect(() => {
     resizeObserverRef.current = new ResizeObserver(recomputeClearance);
-    if (frameElRef.current) resizeObserverRef.current.observe(frameElRef.current);
-    if (cardElRef.current) resizeObserverRef.current.observe(cardElRef.current);
+
+    if (frameElRef.current) {
+      resizeObserverRef.current.observe(frameElRef.current);
+    }
+
+    if (cardElRef.current) {
+      resizeObserverRef.current.observe(cardElRef.current);
+    }
+
     return () => resizeObserverRef.current?.disconnect();
   }, [recomputeClearance]);
 
@@ -142,13 +130,16 @@ export function LandingPage() {
             {/* HERO CONTENT */}
 
             <motion.div
-              initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+              initial={
+                shouldReduceMotion ? false : { opacity: 0, y: 24 }
+              }
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               className="relative z-10 max-w-2xl"
             >
               <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-indigo-400/20 bg-indigo-400/[0.06] px-3 py-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+
                 <span className="text-xs font-medium uppercase tracking-[0.18em] text-indigo-200">
                   Tech Academy &times; Software Studio
                 </span>
@@ -196,13 +187,17 @@ export function LandingPage() {
                   const Icon = statIcons[index];
 
                   return (
-                    <div key={stat.label} className="flex items-center gap-2.5">
+                    <div
+                      key={stat.label}
+                      className="flex items-center gap-2.5"
+                    >
                       <Icon size={18} className="text-indigo-400" />
 
                       <div>
                         <div className="font-display text-xl font-bold text-white">
                           {stat.value}
                         </div>
+
                         <div className="text-xs text-slate-500">
                           {stat.label}
                         </div>
@@ -217,7 +212,9 @@ export function LandingPage() {
 
             <motion.div
               initial={
-                shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }
+                shouldReduceMotion
+                  ? false
+                  : { opacity: 0, scale: 0.96 }
               }
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 0.15 }}
@@ -232,7 +229,11 @@ export function LandingPage() {
 
               <div className="absolute left-1/2 top-1/2 h-[430px] w-[430px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/[0.08] blur-[110px]" />
 
-              <CharacterStage mode="wave" hand="right" priority />
+              <CharacterStage
+                mode="wave"
+                hand="right"
+                priority
+              />
             </motion.div>
           </div>
         </div>
@@ -241,6 +242,7 @@ export function LandingPage() {
           <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-slate-600">
             Scroll to explore
           </span>
+
           <span className="flex h-9 w-6 items-start justify-center rounded-full border border-white/15 pt-1.5">
             <span className="h-1.5 w-1 rounded-full bg-slate-400" />
           </span>
@@ -285,9 +287,15 @@ export function LandingPage() {
               const Icon = whyChooseIcons[index];
 
               return (
-                <div key={item.title} className="flex flex-col items-center text-center">
+                <div
+                  key={item.title}
+                  className="flex flex-col items-center text-center"
+                >
                   <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-indigo-400/15 bg-indigo-400/[0.06]">
-                    <Icon size={26} className="text-indigo-400" />
+                    <Icon
+                      size={26}
+                      className="text-indigo-400"
+                    />
                   </div>
 
                   <h3 className="font-display text-base font-semibold text-white">
@@ -306,20 +314,6 @@ export function LandingPage() {
 
       {/* =====================================================
           ACADEMY / SKILLS
-
-          Layout: the clearance needed for the card to bleed above
-          the character frame is measured live (ResizeObserver) and
-          reserved as a spacer INSIDE THE RIGHT COLUMN ONLY — never
-          as padding on the whole section. That's the fix for the
-          "card sits fine but heading starts way too low" bug: the
-          left column's heading now always sits at the section's
-          normal top position, completely decoupled from the card's
-          height on any course tab or breakpoint.
-
-          Motion: switching tabs triggers a light "blast" at the
-          hand anchor first, then the new card rotates in on a 3D
-          tilt shortly after — sequenced via a short delay so the
-          blast visually leads the card's appearance.
       ===================================================== */}
 
       <section
@@ -372,7 +366,9 @@ export function LandingPage() {
 
                       <span
                         className={`font-mono text-[10px] ${
-                          isActive ? "text-white/70" : "text-slate-600"
+                          isActive
+                            ? "text-white/70"
+                            : "text-slate-600"
                         }`}
                       >
                         {item.number}
@@ -380,7 +376,9 @@ export function LandingPage() {
 
                       <span
                         className={`flex-1 text-sm font-semibold uppercase tracking-wide ${
-                          isActive ? "text-white" : "text-slate-300"
+                          isActive
+                            ? "text-white"
+                            : "text-slate-300"
                         }`}
                       >
                         {item.title}
@@ -401,22 +399,27 @@ export function LandingPage() {
             {/* RIGHT: CHARACTER + HAND-ANCHORED COURSE CARD */}
 
             <div className="relative flex flex-col items-center lg:items-end">
-              {/* Reserves exactly the room the card needs to bleed above
-                  the frame — scoped to THIS column only, so the heading
-                  next to it is never pushed down with it. */}
-              <div style={{ height: clearance }} aria-hidden="true" />
+              <div
+                style={{ height: clearance }}
+                aria-hidden="true"
+              />
 
               <div className="relative flex justify-center lg:justify-end">
                 <div className="pointer-events-none absolute right-10 top-1/2 h-[440px] w-[440px] -translate-y-1/2 rounded-full bg-indigo-500/[0.07] blur-[110px]" />
 
-                {/* Character frame — fixed aspect ratio per breakpoint so
-                    HAND_ANCHOR always lands on the palm. */}
+                {/* CHARACTER FRAME */}
+
                 <div
                   ref={setFrameNode}
                   className="relative h-[380px] w-[260px] sm:h-[500px] sm:w-[340px] lg:h-[600px] lg:w-[400px]"
                   style={{ perspective: 1000 }}
                 >
-                  <CharacterStage mode="present" hand="right" />
+                  <CharacterStage
+                    mode="present"
+                    hand="right"
+                  />
+
+                  {/* COURSE CARD */}
 
                   <div
                     className="absolute z-20"
@@ -426,16 +429,29 @@ export function LandingPage() {
                       transform: "translate(-50%, -100%)",
                     }}
                   >
-                    <AnimatePresence mode="wait" initial={false}>
+                    <AnimatePresence
+                      mode="wait"
+                      initial={false}
+                    >
                       <motion.div
                         ref={setCardNode}
                         key={course.id}
                         initial={
                           shouldReduceMotion
                             ? false
-                            : { opacity: 0, rotateX: -80, y: -14, scale: 0.92 }
+                            : {
+                                opacity: 0,
+                                rotateX: -80,
+                                y: -14,
+                                scale: 0.92,
+                              }
                         }
-                        animate={{ opacity: 1, rotateX: 0, y: 0, scale: 1 }}
+                        animate={{
+                          opacity: 1,
+                          rotateX: 0,
+                          y: 0,
+                          scale: 1,
+                        }}
                         exit={
                           shouldReduceMotion
                             ? { opacity: 0 }
@@ -444,17 +460,17 @@ export function LandingPage() {
                                 rotateX: 45,
                                 y: 6,
                                 scale: 0.97,
-                                transition: { duration: 0.16, ease: "easeIn" },
+                                transition: {
+                                  duration: 0.16,
+                                  ease: "easeIn",
+                                },
                               }
                         }
                         transition={{
                           duration: 0.45,
-                          // Waits for: old card exit (0.16s) + this delay,
-                          // so the new card only starts appearing once the
-                          // light blast (0.45s, see BLAST below) has fully
-                          // finished — a clean "blast, THEN card" sequence
-                          // instead of the two overlapping.
-                          delay: shouldReduceMotion ? 0 : 0.32,
+                          delay: shouldReduceMotion
+                            ? 0
+                            : 0.32,
                           ease: [0.22, 1, 0.36, 1],
                         }}
                         style={{
@@ -463,9 +479,12 @@ export function LandingPage() {
                         }}
                         className="melvorix-glass relative w-[210px] overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-br from-[#1B2036] via-[#12162A] to-[#0B0F19] p-4 shadow-[0_25px_80px_rgba(0,0,0,0.55)] sm:w-56"
                       >
-                        {/* premium gradient sheen */}
+                        {/* PREMIUM GRADIENT SHEEN */}
+
                         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/[0.14] via-transparent to-cyan-400/[0.08]" />
+
                         <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-indigo-400 via-cyan-300 to-indigo-400" />
+
                         <div className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-indigo-400/[0.15] blur-2xl" />
 
                         <div className="relative">
@@ -483,19 +502,24 @@ export function LandingPage() {
                             {course.title}
                           </h3>
 
-                          {/* single-line clamp keeps card height identical
-                              across every course tab */}
                           <p className="mt-1.5 line-clamp-1 text-[11px] leading-4 text-slate-400">
                             {course.description}
                           </p>
 
                           <ul className="mt-2.5 space-y-1.5">
                             <li className="flex items-center gap-1.5 text-[11px] text-slate-300">
-                              <BookOpen size={12} className="text-indigo-400" />
+                              <BookOpen
+                                size={12}
+                                className="text-indigo-400"
+                              />
                               {course.modules}
                             </li>
+
                             <li className="flex items-center gap-1.5 text-[11px] text-slate-300">
-                              <Award size={12} className="text-indigo-400" />
+                              <Award
+                                size={12}
+                                className="text-indigo-400"
+                              />
                               Certificate of Completion
                             </li>
                           </ul>
@@ -504,16 +528,32 @@ export function LandingPage() {
                             <span className="font-display text-lg font-bold text-white">
                               {course.price}
                             </span>
+
                             <span className="text-[11px] text-slate-500 line-through">
                               {course.oldPrice}
                             </span>
+
                             <span className="rounded-full bg-emerald-400/10 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-400">
                               {course.discount}
                             </span>
                           </div>
 
+                          {/* =================================================
+                              FIXED PUBLIC ENROLLMENT BUTTON
+
+                              IMPORTANT:
+                              This no longer points to #academy.
+
+                              It dynamically opens the enrollment page for
+                              the currently selected course.
+
+                              Example:
+                              /courses/ai-automation/enroll
+                              /courses/cybersecurity/enroll
+                              ================================================= */}
+
                           <a
-                            href="#academy"
+                            href={`/courses/${course.id}/enroll`}
                             className="mt-2.5 flex h-9 w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-indigo-600 via-indigo-500 to-blue-500 text-xs font-semibold text-white shadow-[0_6px_20px_-4px_rgba(99,102,241,0.6)] transition hover:from-indigo-500 hover:to-blue-400"
                           >
                             Enroll Now
@@ -521,32 +561,40 @@ export function LandingPage() {
                           </a>
 
                           <div className="mt-2.5 flex items-center justify-center gap-1.5">
-                            {siteConfig.courses.map((item, index) => (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => setActiveCourse(index)}
-                                aria-label={`Show ${item.title}`}
-                                className={`h-1.5 rounded-full transition-all ${
-                                  activeCourse === index
-                                    ? "w-5 bg-gradient-to-r from-indigo-400 to-cyan-300"
-                                    : "w-1.5 bg-white/20"
-                                }`}
-                              />
-                            ))}
+                            {siteConfig.courses.map(
+                              (item, index) => (
+                                <button
+                                  key={item.id}
+                                  type="button"
+                                  onClick={() =>
+                                    setActiveCourse(index)
+                                  }
+                                  aria-label={`Show ${item.title}`}
+                                  className={`h-1.5 rounded-full transition-all ${
+                                    activeCourse === index
+                                      ? "w-5 bg-gradient-to-r from-indigo-400 to-cyan-300"
+                                      : "w-1.5 bg-white/20"
+                                  }`}
+                                />
+                              ),
+                            )}
                           </div>
                         </div>
                       </motion.div>
                     </AnimatePresence>
 
-                    {/* GLOW ORB — right on the palm, connecting hand to card */}
+                    {/* GLOW ORB */}
+
                     <div className="relative mx-auto mt-3 h-9 w-32">
                       <div className="absolute inset-0 rounded-full bg-indigo-400/25 blur-2xl" />
+
                       <div className="absolute left-1/2 top-1/2 h-[3px] w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
+
                       <span
                         aria-hidden="true"
                         className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-[0_0_24px_8px_rgba(34,211,238,0.75)]"
                       />
+
                       {[0, 1].map((ring) => (
                         <span
                           key={ring}
@@ -558,19 +606,24 @@ export function LandingPage() {
                         />
                       ))}
 
-                      {/* BLAST — a bright ring that expands outward from
-                          the hand the instant a new course is picked.
-                          Finishes at ~0.48s, right as the old card exit
-                          (0.16s) + new card delay (0.32s) = 0.48s ends —
-                          so the card only starts appearing once the blast
-                          has fully played out, not while it's overlapping. */}
+                      {/* BLAST */}
+
                       {!shouldReduceMotion && (
                         <motion.span
                           key={`blast-${course.id}`}
                           aria-hidden="true"
-                          initial={{ scale: 0.2, opacity: 1 }}
-                          animate={{ scale: [0.2, 2.2, 2.8], opacity: [1, 0.4, 0] }}
-                          transition={{ duration: 0.48, ease: "easeOut" }}
+                          initial={{
+                            scale: 0.2,
+                            opacity: 1,
+                          }}
+                          animate={{
+                            scale: [0.2, 2.2, 2.8],
+                            opacity: [1, 0.4, 0],
+                          }}
+                          transition={{
+                            duration: 0.48,
+                            ease: "easeOut",
+                          }}
                           className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/70 blur-md"
                         />
                       )}
@@ -587,7 +640,10 @@ export function LandingPage() {
           STUDIO
       ===================================================== */}
 
-      <section id="studio" className="border-b border-white/[0.05] bg-[#090D15] py-28 sm:py-36">
+      <section
+        id="studio"
+        className="border-b border-white/[0.05] bg-[#090D15] py-28 sm:py-36"
+      >
         <div className="melvorix-container">
           <div className="grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
             <div>
@@ -618,28 +674,33 @@ export function LandingPage() {
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              {siteConfig.studioServices.map((service, index) => {
-                const Icon = studioIcons[index];
+              {siteConfig.studioServices.map(
+                (service, index) => {
+                  const Icon = studioIcons[index];
 
-                return (
-                  <div
-                    key={service.title}
-                    className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 transition hover:bg-white/[0.04]"
-                  >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/15 bg-cyan-400/[0.06]">
-                      <Icon size={20} className="text-cyan-400" />
+                  return (
+                    <div
+                      key={service.title}
+                      className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6 transition hover:bg-white/[0.04]"
+                    >
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-400/15 bg-cyan-400/[0.06]">
+                        <Icon
+                          size={20}
+                          className="text-cyan-400"
+                        />
+                      </div>
+
+                      <h3 className="mt-5 font-display text-sm font-semibold uppercase tracking-wide text-white">
+                        {service.title}
+                      </h3>
+
+                      <p className="mt-2 text-sm leading-6 text-slate-500">
+                        {service.description}
+                      </p>
                     </div>
-
-                    <h3 className="mt-5 font-display text-sm font-semibold uppercase tracking-wide text-white">
-                      {service.title}
-                    </h3>
-
-                    <p className="mt-2 text-sm leading-6 text-slate-500">
-                      {service.description}
-                    </p>
-                  </div>
-                );
-              })}
+                  );
+                },
+              )}
             </div>
           </div>
         </div>
@@ -658,7 +719,10 @@ export function LandingPage() {
 
             <h2 className="mt-5 font-display text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
               From first call to{" "}
-              <span className="melvorix-gradient-text">production</span>.
+              <span className="melvorix-gradient-text">
+                production
+              </span>
+              .
             </h2>
 
             <p className="mt-6 text-base leading-8 text-slate-400">
@@ -677,10 +741,23 @@ export function LandingPage() {
             {siteConfig.process.map((step, index) => (
               <motion.div
                 key={step.number}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                initial={
+                  shouldReduceMotion
+                    ? false
+                    : { opacity: 0, y: 20 }
+                }
+                whileInView={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                viewport={{
+                  once: true,
+                  margin: "-80px",
+                }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                }}
                 className="relative rounded-2xl border border-white/[0.07] bg-white/[0.02] p-6"
               >
                 <span className="font-display text-2xl font-bold text-indigo-400/70">
@@ -731,7 +808,10 @@ export function LandingPage() {
                     <div className="text-sm font-semibold text-white">
                       {item.name}
                     </div>
-                    <div className="text-xs text-slate-500">{item.role}</div>
+
+                    <div className="text-xs text-slate-500">
+                      {item.role}
+                    </div>
                   </div>
                 </div>
 
@@ -740,32 +820,38 @@ export function LandingPage() {
                 </p>
 
                 <div className="mt-5 flex gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      className="fill-amber-400 text-amber-400"
-                    />
-                  ))}
+                  {Array.from({ length: 5 }).map(
+                    (_, i) => (
+                      <Star
+                        key={i}
+                        size={14}
+                        className="fill-amber-400 text-amber-400"
+                      />
+                    ),
+                  )}
                 </div>
               </div>
             ))}
           </div>
 
           <div className="mt-10 flex items-center justify-center gap-1.5">
-            {siteConfig.testimonials.map((item, index) => (
-              <button
-                key={item.name}
-                type="button"
-                onClick={() => setActiveTestimonial(index)}
-                aria-label={`Show testimonial ${index + 1}`}
-                className={`h-1.5 rounded-full transition-all ${
-                  activeTestimonial === index
-                    ? "w-5 bg-indigo-400"
-                    : "w-1.5 bg-white/20"
-                }`}
-              />
-            ))}
+            {siteConfig.testimonials.map(
+              (item, index) => (
+                <button
+                  key={item.name}
+                  type="button"
+                  onClick={() =>
+                    setActiveTestimonial(index)
+                  }
+                  aria-label={`Show testimonial ${index + 1}`}
+                  className={`h-1.5 rounded-full transition-all ${
+                    activeTestimonial === index
+                      ? "w-5 bg-indigo-400"
+                      : "w-1.5 bg-white/20"
+                  }`}
+                />
+              ),
+            )}
           </div>
         </div>
       </section>
@@ -774,7 +860,10 @@ export function LandingPage() {
           FAQ
       ===================================================== */}
 
-      <section id="faq" className="border-b border-white/[0.05] bg-[#090D15] py-28 sm:py-36">
+      <section
+        id="faq"
+        className="border-b border-white/[0.05] bg-[#090D15] py-28 sm:py-36"
+      >
         <div className="melvorix-container grid gap-14 lg:grid-cols-[0.7fr_1.3fr]">
           <div>
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-cyan-400">
@@ -807,7 +896,9 @@ export function LandingPage() {
                 <div key={faq.question}>
                   <button
                     type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
+                    onClick={() =>
+                      setOpenFaq(isOpen ? null : index)
+                    }
                     aria-expanded={isOpen}
                     className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
                   >
@@ -818,7 +909,9 @@ export function LandingPage() {
                     <ChevronDown
                       size={18}
                       className={`shrink-0 text-slate-500 transition-transform duration-300 ${
-                        isOpen ? "rotate-180 text-indigo-400" : ""
+                        isOpen
+                          ? "rotate-180 text-indigo-400"
+                          : ""
                       }`}
                     />
                   </button>
@@ -829,7 +922,10 @@ export function LandingPage() {
                       height: isOpen ? "auto" : 0,
                       opacity: isOpen ? 1 : 0,
                     }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{
+                      duration: 0.3,
+                      ease: "easeInOut",
+                    }}
                     className="overflow-hidden"
                   >
                     <p className="px-6 pb-5 text-sm leading-7 text-slate-400">
@@ -847,7 +943,10 @@ export function LandingPage() {
           FINAL CTA
       ===================================================== */}
 
-      <section id="contact" className="relative overflow-hidden py-28 sm:py-36">
+      <section
+        id="contact"
+        className="relative overflow-hidden py-28 sm:py-36"
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_50%,rgba(99,102,241,0.1),transparent_40%)]" />
 
         <div className="melvorix-container relative grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -858,7 +957,9 @@ export function LandingPage() {
 
             <h2 className="mt-6 font-display text-4xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
               The future belongs to{" "}
-              <span className="melvorix-gradient-text">builders.</span>
+              <span className="melvorix-gradient-text">
+                builders.
+              </span>
               <br />
               Be one of them.
             </h2>
@@ -884,14 +985,47 @@ export function LandingPage() {
 
           <div className="relative mx-auto flex h-[280px] w-[280px] items-center justify-center sm:h-[340px] sm:w-[340px]">
             <span className="absolute inset-0 rounded-full border border-indigo-400/15" />
+
             <span className="absolute inset-8 rounded-full border border-indigo-400/10" />
+
             <span className="absolute inset-16 rounded-full border border-cyan-400/10" />
 
             <div className="absolute h-40 w-40 rounded-full bg-indigo-500/20 blur-[70px]" />
 
-            <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-2xl font-bold text-white shadow-[0_0_60px_rgba(99,102,241,0.4)]">
-              M
-            </div>
+            <div className="relative flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
+  {/* Soft brand glow behind the logo */}
+  <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-3xl" />
+
+  <motion.div
+    animate={
+      shouldReduceMotion
+        ? undefined
+        : {
+            y: [0, -6, 0],
+            scale: [1, 1.025, 1],
+          }
+    }
+    transition={
+      shouldReduceMotion
+        ? undefined
+        : {
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }
+    }
+    className="relative z-10"
+  >
+    <Image
+      src="/melvorix-mark.png"
+      alt="Melvorix"
+      width={120}
+      height={120}
+      priority
+      className="h-24 w-24 object-contain drop-shadow-[0_0_25px_rgba(0,174,255,0.35)] sm:h-28 sm:w-28"
+    />
+  </motion.div>
+</div>
           </div>
         </div>
       </section>
@@ -907,12 +1041,23 @@ export function LandingPage() {
 
             <div>
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-400 text-sm font-bold text-white">
-                  M
-                </div>
-                <span className="font-display text-lg font-bold tracking-[0.1em] text-white">
+               
+<div className="relative flex h-16 w-16 -translate-y-4 items-center justify-center sm:h-20 sm:w-20">
+  <Image
+    src="/melvorix-mark.png"
+    alt="Melvorix"
+    width={80}
+    height={80}
+    priority
+    className="h-14 w-14 object-contain sm:h-16 sm:w-16"
+  />
+</div>
+
+
+
+                {/* <span className="font-display text-lg font-bold tracking-[0.1em] text-white">
                   MELVORIX
-                </span>
+                </span> */}
               </div>
 
               <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-600">
@@ -925,16 +1070,18 @@ export function LandingPage() {
               </p>
 
               <div className="mt-6 flex gap-3">
-                {["FB", "TW", "IN", "IG", "YT"].map((label) => (
-                  <a
-                    key={label}
-                    href="#"
-                    aria-label={label}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.07] text-[10px] font-semibold text-slate-500 transition hover:border-white/15 hover:text-white"
-                  >
-                    {label}
-                  </a>
-                ))}
+                {["FB", "TW", "IN", "IG", "YT"].map(
+                  (label) => (
+                    <a
+                      key={label}
+                      href="#"
+                      aria-label={label}
+                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.07] text-[10px] font-semibold text-slate-500 transition hover:border-white/15 hover:text-white"
+                    >
+                      {label}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
@@ -944,16 +1091,19 @@ export function LandingPage() {
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Academy
               </h3>
+
               <div className="mt-5 space-y-3">
-                {siteConfig.footer.academy.map((item) => (
-                  <a
-                    key={item}
-                    href="#academy"
-                    className="block text-sm text-slate-600 transition hover:text-white"
-                  >
-                    {item}
-                  </a>
-                ))}
+                {siteConfig.footer.academy.map(
+                  (item) => (
+                    <a
+                      key={item}
+                      href="#academy"
+                      className="block text-sm text-slate-600 transition hover:text-white"
+                    >
+                      {item}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
@@ -963,16 +1113,19 @@ export function LandingPage() {
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Studio
               </h3>
+
               <div className="mt-5 space-y-3">
-                {siteConfig.footer.studio.map((item) => (
-                  <a
-                    key={item}
-                    href="#studio"
-                    className="block text-sm text-slate-600 transition hover:text-white"
-                  >
-                    {item}
-                  </a>
-                ))}
+                {siteConfig.footer.studio.map(
+                  (item) => (
+                    <a
+                      key={item}
+                      href="#studio"
+                      className="block text-sm text-slate-600 transition hover:text-white"
+                    >
+                      {item}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
@@ -982,16 +1135,19 @@ export function LandingPage() {
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Company
               </h3>
+
               <div className="mt-5 space-y-3">
-                {siteConfig.footer.company.map((item) => (
-                  <a
-                    key={item}
-                    href="#about"
-                    className="block text-sm text-slate-600 transition hover:text-white"
-                  >
-                    {item}
-                  </a>
-                ))}
+                {siteConfig.footer.company.map(
+                  (item) => (
+                    <a
+                      key={item}
+                      href="#about"
+                      className="block text-sm text-slate-600 transition hover:text-white"
+                    >
+                      {item}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
@@ -1001,16 +1157,23 @@ export function LandingPage() {
               <h3 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
                 Support
               </h3>
+
               <div className="mt-5 space-y-3">
-                {siteConfig.footer.support.map((item) => (
-                  <a
-                    key={item}
-                    href={item === "FAQ" ? "#faq" : "#contact"}
-                    className="block text-sm text-slate-600 transition hover:text-white"
-                  >
-                    {item}
-                  </a>
-                ))}
+                {siteConfig.footer.support.map(
+                  (item) => (
+                    <a
+                      key={item}
+                      href={
+                        item === "FAQ"
+                          ? "#faq"
+                          : "#contact"
+                      }
+                      className="block text-sm text-slate-600 transition hover:text-white"
+                    >
+                      {item}
+                    </a>
+                  ),
+                )}
               </div>
             </div>
 
@@ -1036,6 +1199,7 @@ export function LandingPage() {
                   placeholder="Enter your email"
                   className="h-9 w-full bg-transparent px-2.5 text-sm text-white placeholder:text-slate-600 focus:outline-none"
                 />
+
                 <button
                   type="submit"
                   aria-label="Subscribe"
@@ -1055,10 +1219,17 @@ export function LandingPage() {
             </span>
 
             <div className="flex gap-5">
-              <a href="#" className="transition hover:text-slate-400">
+              <a
+                href="#"
+                className="transition hover:text-slate-400"
+              >
                 Privacy Policy
               </a>
-              <a href="#" className="transition hover:text-slate-400">
+
+              <a
+                href="#"
+                className="transition hover:text-slate-400"
+              >
                 Terms of Service
               </a>
             </div>

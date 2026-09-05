@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -13,7 +14,6 @@ import {
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
-import { createClient } from "@/lib/supabase/server";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,7 +33,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const course = getCourse(slug);
 
-  if (!course) return { title: "Course not found — Melvorix" };
+  if (!course) {
+    return {
+      title: "Course not found — Melvorix",
+    };
+  }
 
   return {
     title: `${course.title} — Melvorix Academy`,
@@ -54,16 +58,24 @@ export default async function CourseDetailPage({ params }: Props) {
   const { slug } = await params;
   const course = getCourse(slug);
 
-  if (!course) notFound();
+  if (!course) {
+    notFound();
+  }
 
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const enrollHref = user
-    ? `/courses/${course.id}/enroll`
-    : `/login?redirect=${encodeURIComponent(`/courses/${course.id}/enroll`)}`;
+  /*
+   * Public enrollment flow:
+   *
+   * Course Details
+   *      ↓
+   * Enroll Now
+   *      ↓
+   * Public Enrollment Form
+   *      ↓
+   * Submit Application
+   *
+   * No login or registration is required.
+   */
+  const enrollHref = `/courses/${course.id}/enroll`;
 
   return (
     <main className="min-h-screen bg-[#0B0F19] text-white">
@@ -107,14 +119,17 @@ export default async function CourseDetailPage({ params }: Props) {
                   <BookOpen size={16} className="text-indigo-400" />
                   {course.modules}
                 </span>
+
                 <span className="flex items-center gap-2">
                   <Clock size={16} className="text-indigo-400" />
                   {course.lessons}
                 </span>
+
                 <span className="flex items-center gap-2">
                   <Users size={16} className="text-indigo-400" />
                   Cohort + self-paced
                 </span>
+
                 <span className="flex items-center gap-2">
                   <Award size={16} className="text-indigo-400" />
                   Certificate included
@@ -136,6 +151,7 @@ export default async function CourseDetailPage({ params }: Props) {
                         size={17}
                         className="mt-0.5 shrink-0 text-indigo-400"
                       />
+
                       {item}
                     </li>
                   ))}
@@ -151,9 +167,11 @@ export default async function CourseDetailPage({ params }: Props) {
                   <span className="font-display text-3xl font-bold text-white">
                     {course.price}
                   </span>
+
                   <span className="text-sm text-slate-500 line-through">
                     {course.oldPrice}
                   </span>
+
                   <span className="rounded-full bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">
                     {course.discount}
                   </span>
@@ -167,21 +185,21 @@ export default async function CourseDetailPage({ params }: Props) {
                   <ArrowRight size={16} />
                 </Link>
 
-                {!user && (
-                  <p className="mt-3 text-center text-xs text-slate-600">
-                    You&apos;ll be asked to log in or create an account first.
-                  </p>
-                )}
+                <p className="mt-3 text-center text-xs text-slate-500">
+                  No account or registration required.
+                </p>
 
                 <div className="mt-6 space-y-3 border-t border-white/[0.06] pt-6">
                   <div className="flex items-center gap-2.5 text-sm text-slate-300">
                     <BookOpen size={15} className="text-indigo-400" />
                     {course.modules}
                   </div>
+
                   <div className="flex items-center gap-2.5 text-sm text-slate-300">
                     <Clock size={15} className="text-indigo-400" />
                     {course.lessons}
                   </div>
+
                   <div className="flex items-center gap-2.5 text-sm text-slate-300">
                     <Award size={15} className="text-indigo-400" />
                     Certificate of Completion
@@ -197,3 +215,4 @@ export default async function CourseDetailPage({ params }: Props) {
     </main>
   );
 }
+
