@@ -38,6 +38,53 @@ const studioIcons = [Cpu, Code2, Settings2, BarChart3];
    TEAM
    ========================================================= */
 
+function FemaleAvatar({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#171D35] via-[#111827] to-[#0B0F19] ${className}`}
+      aria-label="Female avatar for Mam Saleem Akhtar"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_32%,rgba(129,140,248,0.22),transparent_45%)]" />
+      <svg
+        viewBox="0 0 200 200"
+        className="relative h-[72%] w-[72%] text-indigo-300"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path
+          d="M100 29c-31 0-55 25-55 56v22c0 13 5 25 13 34 8-17 23-28 42-28s34 11 42 28c8-9 13-21 13-34V85c0-31-24-56-55-56Z"
+          fill="currentColor"
+          opacity=".18"
+        />
+        <circle cx="100" cy="82" r="36" fill="currentColor" opacity=".9" />
+        <path
+          d="M51 178c5-31 23-48 49-48s44 17 49 48"
+          stroke="currentColor"
+          strokeWidth="14"
+          strokeLinecap="round"
+          opacity=".9"
+        />
+        <path
+          d="M68 78c6-8 17-13 32-13 14 0 26 5 32 13"
+          stroke="#0B0F19"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity=".7"
+        />
+        <path
+          d="M84 96c10 7 22 7 32 0"
+          stroke="#0B0F19"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity=".55"
+        />
+      </svg>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#090D15]/70 to-transparent" />
+    </div>
+  );
+}
+
 const teamMembers = [
 
   {
@@ -61,16 +108,6 @@ const teamMembers = [
 },
 
 {
-  name: "Mam Saleem Akhtar",
-  role: "Head of Student Affairs",
-  shortRole: "HSA",
-  bio: "A dedicated coordinator at Informatics College, Saleem Akhtar brings extensive experience in student affairs, academic coordination, administration, and student management. She plays a key role in creating an organized and supportive learning environment, ensuring effective communication, student engagement, and smooth academic operations at Melvorix.",
-  image: "/images/team/saleem-aktharf.jpg",
-  phone: "",
-  linkedin: "#",
-},
-
-{
   name: "Burhan Khan",
   role: "Founder & Chief Technology Officer",
   shortRole: "CTO",
@@ -86,6 +123,16 @@ const teamMembers = [
   shortRole: "CAIO",
   bio: "A Software Engineer and Certified Ethical Hacker, Social Media Specialist, and Social Media Automation Expert, Azhar focuses on combining technology, AI, and digital marketing to create smarter growth systems. He leads Melvorix’s AI and social automation initiatives, exploring intelligent workflows, content systems, and emerging technologies that help businesses operate and grow more efficiently.",
   image: "/images/team/azhar-fareed.jpg",
+  phone: "",
+  linkedin: "#",
+},
+
+{
+  name: "Mam Saleem Akhtar",
+  role: "Head of Student Affairs",
+  shortRole: "HSA",
+  bio: "A dedicated coordinator at Informatics College, Saleem Akhtar brings extensive experience in student affairs, academic coordination, administration, and student management. She plays a key role in creating an organized and supportive learning environment, ensuring effective communication, student engagement, and smooth academic operations at Melvorix.",
+  image: "/images/team/saleem-aktharf.jpg",
   phone: "",
   linkedin: "#",
 },
@@ -811,13 +858,17 @@ const [selectedTeamMember, setSelectedTeamMember] = useState<
                 ].join(" ")}
               >
                 <div className="relative aspect-[4/4.5] overflow-hidden bg-[#111827]">
-                  <Image
-                    src={member.image}
-                    alt={`${member.name} — ${member.role}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover object-center grayscale-[15%] transition duration-700 group-hover:scale-[1.035] group-hover:grayscale-0"
-                  />
+                  {member.name === "Mam Saleem Akhtar" ? (
+                    <FemaleAvatar className="absolute inset-0 h-full w-full transition duration-700 group-hover:scale-[1.035]" />
+                  ) : (
+                    <Image
+                      src={member.image}
+                      alt={`${member.name} — ${member.role}`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover object-center grayscale-[15%] transition duration-700 group-hover:scale-[1.035] group-hover:grayscale-0"
+                    />
+                  )}
 
                   <div className="absolute inset-0 bg-gradient-to-t from-[#090D15] via-transparent to-transparent opacity-90" />
 
@@ -937,13 +988,17 @@ const [selectedTeamMember, setSelectedTeamMember] = useState<
           {/* Member header */}
           <div className="flex items-center gap-4 pr-10">
             <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/[0.08]">
-              <Image
-                src={selectedTeamMember.image}
-                alt={selectedTeamMember.name}
-                fill
-                sizes="64px"
-                className="object-cover"
-              />
+              {selectedTeamMember.name === "Mam Saleem Akhtar" ? (
+                <FemaleAvatar className="absolute inset-0 h-full w-full" />
+              ) : (
+                <Image
+                  src={selectedTeamMember.image}
+                  alt={selectedTeamMember.name}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                />
+              )}
             </div>
 
             <div>
