@@ -41,54 +41,54 @@ const studioIcons = [Cpu, Code2, Settings2, BarChart3];
 const teamMembers = [
 
   {
-    name: "Awais Khan",
-    role: "Founder & Chief Executive Officer",
-    shortRole: "CEO",
-    bio: "Drives the company’s vision, operations, and strategic growth while turning ambitious ideas into scalable opportunities.",
-    image: "/images/team/awais-khan1.jpg",
-    phone: "",
-    linkedin: "#",
-  },
+  name: "Awais Khan",
+  role: "Founder & Chief Executive Officer",
+  shortRole: "CEO",
+  bio: "A Principal at Dar-e-Arqam School with an MS in Computational Mathematics, Awais brings strong expertise in mathematics, data analytics, and analytical problem-solving. He leads Melvorix’s overall vision, operations, and strategic growth, combining academic insight with data-driven decision-making to build scalable opportunities.",
+  image: "/images/team/Awais-khanf.jpg",
+  phone: "",
+  linkedin: "#",
+},
 
-    {
-    name: "Naeem Abbas",
-    role: "Founder & Chief Growth Officer",
-    shortRole: "CGO",
-    bio: "Focuses on growth, partnerships, and market expansion to connect Melvorix’s capabilities with meaningful opportunities.",
-    image: "/images/team/naeem-abbas.jpg",
-    phone: "",
-    linkedin: "#",
-  },
+{
+  name: "Naeem Abbas",
+  role: "Founder & Chief Growth Officer",
+  shortRole: "CGO",
+  bio: "An experienced Mathematics teacher with an MS in Mathematics, Naeem combines a strong academic foundation with expertise in Artificial Intelligence and Machine Learning. At Melvorix, he focuses on strategic growth, partnerships, innovation, and market expansion while helping connect technology with practical opportunities.",
+  image: "/images/team/Naeem-abbasf.jpg",
+  phone: "",
+  linkedin: "#",
+},
 
-   {
-    name: "Mam Saleem Akhtar",
-    role: "Director of Learning & Development",
-    shortRole: "DLD",
-    bio: "Shapes the learning experience at Melvorix, helping students develop practical skills that translate into real-world opportunities.",
-    image: "/images/team/saleem-akhtar4.jpg",
-    phone: "",
-    linkedin: "#",
-  },
+{
+  name: "Mam Saleem Akhtar",
+  role: "Head of Student Affairs",
+  shortRole: "HSA",
+  bio: "A dedicated coordinator at Informatics College, Saleem Akhtar brings extensive experience in student affairs, academic coordination, administration, and student management. She plays a key role in creating an organized and supportive learning environment, ensuring effective communication, student engagement, and smooth academic operations at Melvorix.",
+  image: "/images/team/saleem-aktharf.jpg",
+  phone: "",
+  linkedin: "#",
+},
 
-  {
-    name: "Burhan Khan",
-    role: "Founder & Chief Technology Officer",
-    shortRole: "CTO",
-    bio: "Leads Melvorix’s technology vision, building AI-powered systems and digital solutions designed for real-world impact.",
-    image: "/images/team/burhan-khan.jpg",
-    phone: "+923037738456",
-    linkedin: "#",
-  },
-  
-  {
-    name: "Azhar Fareed",
-    role: "Founder & Chief AI Officer",
-    shortRole: "CAIO",
-    bio: "Leads AI innovation at Melvorix, exploring intelligent systems and emerging technologies that shape the future of digital work.",
-    image: "/images/team/azhar-fareed.jpg",
-    phone: "",
-    linkedin: "#",
-  },
+{
+  name: "Burhan Khan",
+  role: "Founder & Chief Technology Officer",
+  shortRole: "CTO",
+  bio: "A Certified Ethical Hacker (CEH), Digital Forensics Expert, AI/ML Engineer, AI Automation Engineer, and Blockchain Smart Contract Developer, Burhan leads Melvorix’s technology and innovation initiatives. He specializes in AI-powered systems, automation, cybersecurity, digital forensics, and emerging technologies. He is also the CEO of StitchArc Sports, combining technical expertise with entrepreneurial experience to build practical digital solutions and scalable ventures.",
+  image: "/images/team/burhan-khanf.png",
+  phone: "+923037738456",
+  linkedin: "#",
+},
+
+{
+  name: "Azhar Fareed",
+  role: "Founder & Chief AI Officer",
+  shortRole: "CAIO",
+  bio: "A Certified Ethical Hacker, Social Media Specialist, and Social Media Automation Expert, Azhar focuses on combining technology, AI, and digital marketing to create smarter growth systems. He leads Melvorix’s AI and social automation initiatives, exploring intelligent workflows, content systems, and emerging technologies that help businesses operate and grow more efficiently.",
+  image: "/images/team/azhar-fareed.jpg",
+  phone: "",
+  linkedin: "#",
+},
 
  
 ];
@@ -107,10 +107,12 @@ const HAND_ANCHOR = { left: "9%", top: "27%" };
 export function LandingPage() {
   const shouldReduceMotion = useReducedMotion();
 
-  const [activeCourse, setActiveCourse] = useState(0);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-
+const [activeCourse, setActiveCourse] = useState(0);
+const [activeTestimonial, setActiveTestimonial] = useState(0);
+const [openFaq, setOpenFaq] = useState<number | null>(0);
+const [selectedTeamMember, setSelectedTeamMember] = useState<
+  (typeof teamMembers)[number] | null
+>(null);
   const course = siteConfig.courses[activeCourse];
 
   /* ---------------------------------------------------------
@@ -837,9 +839,18 @@ export function LandingPage() {
                     {member.role}
                   </p>
 
-                  <p className="mt-4 text-sm leading-6 text-slate-500">
-                    {member.bio}
-                  </p>
+                  <p className="mt-4 line-clamp-2 min-h-[48px] text-sm leading-6 text-slate-500">
+  {member.bio}
+</p>
+
+<button
+  type="button"
+  onClick={() => setSelectedTeamMember(member)}
+  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 transition hover:text-indigo-300"
+>
+  Read More
+  <ArrowRight size={13} />
+</button>
 
                   <div className="mt-6 flex items-center gap-2 border-t border-white/[0.06] pt-5">
                     <a
@@ -880,6 +891,101 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <AnimatePresence>
+  {selectedTeamMember && (
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-md"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={() => setSelectedTeamMember(null)}
+    >
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="team-member-name"
+        initial={
+          shouldReduceMotion
+            ? false
+            : { opacity: 0, y: 20, scale: 0.96 }
+        }
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={
+          shouldReduceMotion
+            ? { opacity: 0 }
+            : { opacity: 0, y: 10, scale: 0.97 }
+        }
+        transition={{ duration: 0.25 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0B0F19] shadow-[0_30px_100px_rgba(0,0,0,0.7)]"
+      >
+        {/* Top glow */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-indigo-500/[0.12] to-transparent" />
+
+        <div className="relative p-7 sm:p-9">
+          {/* Close */}
+          <button
+            type="button"
+            onClick={() => setSelectedTeamMember(null)}
+            aria-label="Close team member details"
+            className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.03] text-slate-400 transition hover:border-white/15 hover:bg-white/[0.06] hover:text-white"
+          >
+            ×
+          </button>
+
+          {/* Member header */}
+          <div className="flex items-center gap-4 pr-10">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-white/[0.08]">
+              <Image
+                src={selectedTeamMember.image}
+                alt={selectedTeamMember.name}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
+            </div>
+
+            <div>
+              <h3
+                id="team-member-name"
+                className="font-display text-xl font-semibold tracking-tight text-white"
+              >
+                {selectedTeamMember.name}
+              </h3>
+
+              <p className="mt-1 text-xs font-medium text-indigo-400">
+                {selectedTeamMember.role}
+              </p>
+            </div>
+          </div>
+
+          {/* Full bio */}
+          <div className="mt-7 border-t border-white/[0.06] pt-6">
+            <p className="text-sm leading-7 text-slate-400 sm:text-base sm:leading-8">
+              {selectedTeamMember.bio}
+            </p>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-7 flex items-center justify-between border-t border-white/[0.06] pt-5">
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-slate-600">
+              Melvorix Team
+            </span>
+
+            <button
+              type="button"
+              onClick={() => setSelectedTeamMember(null)}
+              className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-xs font-semibold text-slate-300 transition hover:bg-white/[0.06] hover:text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence> 
 
       {/* =====================================================
           PROCESS

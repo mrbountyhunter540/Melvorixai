@@ -116,9 +116,15 @@ melvorix1
 ├── public
 │   ├── icons
 │   ├── images
-│   │   └── character
-│   │       ├── melvorix-present.png
-│   │       └── melvorix-wave.png
+│   │   ├── character
+│   │   │   ├── melvorix-present.png
+│   │   │   └── melvorix-wave.png
+│   │   └── team
+│   │       ├── awais-khan1.jpg
+│   │       ├── azhar-fareed.jpg
+│   │       ├── burhan-khan.jpg
+│   │       ├── naeem-abbas.jpg
+│   │       └── saleem-akhtar4.jpg
 │   ├── models
 │   ├── textures
 │   ├── videos
