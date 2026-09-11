@@ -120,14 +120,15 @@ melvorix1
 │   │   │   ├── melvorix-present.png
 │   │   │   └── melvorix-wave.png
 │   │   └── team
-│   │       ├── awais-khan1.jpg
+│   │       ├── Awais-khanf.jpg
 │   │       ├── azhar-fareed.jpg
-│   │       ├── burhan-khan.jpg
-│   │       ├── naeem-abbas.jpg
-│   │       └── saleem-akhtar4.jpg
+│   │       ├── burhan-khanf.png
+│   │       ├── Naeem-abbasf.jpg
+│   │       └── saleem-aktharf.jpg
 │   ├── models
 │   ├── textures
 │   ├── videos
+│   ├── favicon.png
 │   ├── file.svg
 │   ├── globe.svg
 │   ├── melvorix-logo.png
@@ -177,6 +178,7 @@ melvorix1
 │   │   │   └── page.tsx
 │   │   ├── favicon.ico
 │   │   ├── globals.css
+│   │   ├── icon.png
 │   │   ├── layout.tsx
 │   │   └── page.tsx
 │   ├── components

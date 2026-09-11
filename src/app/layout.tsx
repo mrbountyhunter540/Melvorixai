@@ -34,23 +34,54 @@ export const metadata: Metadata = {
   description:
     "Melvorix is a technology education and digital solutions company helping people and businesses automate, build, and grow with modern technology.",
 
+  applicationName: "Melvorix",
+
   keywords: [
     "Melvorix",
     "AI Automation",
     "n8n",
     "Cybersecurity",
     "Digital Marketing",
-    "Social Media",
+    "Social Media Automation",
     "Data Analytics",
     "Software Development",
+    "Tech Academy",
+    "AI Education",
+    "Technology Institute",
   ],
 
-  applicationName: "Melvorix",
+  authors: [
+    {
+      name: "Melvorix",
+    },
+  ],
+
+  creator: "Melvorix",
+  publisher: "Melvorix",
 
   robots: {
     index: true,
     follow: true,
   },
+
+  openGraph: {
+    title: "Melvorix — Automate. Educate. Elevate.",
+    description:
+      "Tech academy and software studio empowering the next generation of builders and innovators.",
+    siteName: "Melvorix",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Melvorix — Automate. Educate. Elevate.",
+    description:
+      "Tech academy and software studio empowering the next generation of builders and innovators.",
+  },
+
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
 };
 
 export default function RootLayout({
@@ -63,6 +94,25 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        <link
+          rel="icon"
+          href="/favicon.png?v=2"
+          type="image/png"
+        />
+
+        <link
+          rel="shortcut icon"
+          href="/favicon.png?v=2"
+          type="image/png"
+        />
+
+        <link
+          rel="apple-touch-icon"
+          href="/favicon.png?v=2"
+        />
+      </head>
+
       <body>{children}</body>
     </html>
   );
