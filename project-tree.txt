@@ -128,7 +128,6 @@ melvorix1
 │   ├── models
 │   ├── textures
 │   ├── videos
-│   ├── favicon.png
 │   ├── file.svg
 │   ├── globe.svg
 │   ├── melvorix-logo.png
@@ -176,7 +175,6 @@ melvorix1
 │   │   │   └── page.tsx
 │   │   ├── update-password
 │   │   │   └── page.tsx
-│   │   ├── favicon.ico
 │   │   ├── globals.css
 │   │   ├── icon.png
 │   │   ├── layout.tsx
