@@ -101,7 +101,10 @@ export default function EnrollmentForm({
       setSuccess(true);
       setForm(initialForm);
     } catch (submitError) {
-      console.error("Enrollment submission error:", submitError);
+      console.error(
+        "Enrollment submission error:",
+        submitError
+      );
 
       setError(
         submitError instanceof Error
@@ -173,7 +176,9 @@ export default function EnrollmentForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-      {/* Basic Information */}
+      {/* =====================================================
+          BASIC INFORMATION
+      ===================================================== */}
       <div className="space-y-6">
         <div>
           <h2 className="text-xl font-bold tracking-tight">
@@ -186,12 +191,14 @@ export default function EnrollmentForm({
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
+          {/* Full Name */}
           <div className="space-y-2">
             <label
               htmlFor="fullName"
               className="text-sm font-medium"
             >
-              Full Name <span className="text-red-500">*</span>
+              Full Name{" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -203,19 +210,24 @@ export default function EnrollmentForm({
               minLength={2}
               value={form.fullName}
               onChange={(event) =>
-                updateField("fullName", event.target.value)
+                updateField(
+                  "fullName",
+                  event.target.value
+                )
               }
               placeholder="Enter your full name"
               className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
+          {/* Email */}
           <div className="space-y-2">
             <label
               htmlFor="email"
               className="text-sm font-medium"
             >
-              Email Address <span className="text-red-500">*</span>
+              Email Address{" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -226,19 +238,24 @@ export default function EnrollmentForm({
               required
               value={form.email}
               onChange={(event) =>
-                updateField("email", event.target.value)
+                updateField(
+                  "email",
+                  event.target.value
+                )
               }
               placeholder="you@example.com"
               className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
+          {/* Phone */}
           <div className="space-y-2">
             <label
               htmlFor="phone"
               className="text-sm font-medium"
             >
-              Phone / WhatsApp <span className="text-red-500">*</span>
+              Phone / WhatsApp{" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -249,13 +266,17 @@ export default function EnrollmentForm({
               required
               value={form.phone}
               onChange={(event) =>
-                updateField("phone", event.target.value)
+                updateField(
+                  "phone",
+                  event.target.value
+                )
               }
               placeholder="+92 300 1234567"
               className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
             />
           </div>
 
+          {/* Education */}
           <div className="space-y-2">
             <label
               htmlFor="education"
@@ -272,7 +293,10 @@ export default function EnrollmentForm({
               required
               value={form.education}
               onChange={(event) =>
-                updateField("education", event.target.value)
+                updateField(
+                  "education",
+                  event.target.value
+                )
               }
               placeholder="e.g. Intermediate, Bachelor's, Freelancer"
               className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -281,7 +305,9 @@ export default function EnrollmentForm({
         </div>
       </div>
 
-      {/* Learning Information */}
+      {/* =====================================================
+          LEARNING INFORMATION
+      ===================================================== */}
       <div className="space-y-6 border-t border-border pt-8">
         <div>
           <h2 className="text-xl font-bold tracking-tight">
@@ -295,6 +321,7 @@ export default function EnrollmentForm({
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
+          {/* Current Skill Level */}
           <div className="space-y-2">
             <label
               htmlFor="skillLevel"
@@ -308,18 +335,36 @@ export default function EnrollmentForm({
               name="skillLevel"
               value={form.skillLevel}
               onChange={(event) =>
-                updateField("skillLevel", event.target.value)
+                updateField(
+                  "skillLevel",
+                  event.target.value
+                )
               }
-              className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 [color-scheme:dark] [&>option]:bg-[#080B12] [&>option]:text-white"
             >
-              <option value="">Select your level</option>
-              <option value="Beginner">Beginner</option>
-              <option value="Intermediate">Intermediate</option>
-              <option value="Advanced">Advanced</option>
-              <option value="Professional">Professional</option>
+              <option value="">
+                Select your level
+              </option>
+
+              <option value="Beginner">
+                Beginner
+              </option>
+
+              <option value="Intermediate">
+                Intermediate
+              </option>
+
+              <option value="Advanced">
+                Advanced
+              </option>
+
+              <option value="Professional">
+                Professional
+              </option>
             </select>
           </div>
 
+          {/* Preferred Learning Mode */}
           <div className="space-y-2">
             <label
               htmlFor="learningMode"
@@ -333,15 +378,25 @@ export default function EnrollmentForm({
               name="learningMode"
               value={form.learningMode}
               onChange={(event) =>
-                updateField("learningMode", event.target.value)
+                updateField(
+                  "learningMode",
+                  event.target.value
+                )
               }
-              className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+              className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20 [color-scheme:dark] [&>option]:bg-[#080B12] [&>option]:text-white"
             >
-              <option value="">Select learning mode</option>
-              <option value="Self-paced">Self-paced</option>
+              <option value="">
+                Select learning mode
+              </option>
+
+              <option value="Self-paced">
+                Self-paced
+              </option>
+
               <option value="Cohort + mentoring">
                 Cohort + mentoring
               </option>
+
               <option value="Not sure yet">
                 Not sure yet
               </option>
@@ -349,6 +404,7 @@ export default function EnrollmentForm({
           </div>
         </div>
 
+        {/* Learning Goal */}
         <div className="space-y-2">
           <label
             htmlFor="learningGoal"
@@ -365,13 +421,17 @@ export default function EnrollmentForm({
             rows={4}
             value={form.learningGoal}
             onChange={(event) =>
-              updateField("learningGoal", event.target.value)
+              updateField(
+                "learningGoal",
+                event.target.value
+              )
             }
             placeholder="Tell us what you want to learn, build, or achieve through this course..."
             className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
           />
         </div>
 
+        {/* Additional Message */}
         <div className="space-y-2">
           <label
             htmlFor="message"
@@ -389,7 +449,10 @@ export default function EnrollmentForm({
             rows={4}
             value={form.message}
             onChange={(event) =>
-              updateField("message", event.target.value)
+              updateField(
+                "message",
+                event.target.value
+              )
             }
             placeholder="Anything else you'd like our team to know?"
             className="w-full resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20"
@@ -397,7 +460,9 @@ export default function EnrollmentForm({
         </div>
       </div>
 
-      {/* Terms */}
+      {/* =====================================================
+          TERMS
+      ===================================================== */}
       <div className="border-t border-border pt-8">
         <label className="flex cursor-pointer items-start gap-3">
           <input
@@ -422,7 +487,9 @@ export default function EnrollmentForm({
         </label>
       </div>
 
-      {/* Honeypot */}
+      {/* =====================================================
+          HONEYPOT
+      ===================================================== */}
       <div
         aria-hidden="true"
         className="absolute left-[-9999px] h-px w-px overflow-hidden"
@@ -439,12 +506,17 @@ export default function EnrollmentForm({
           autoComplete="off"
           value={form.website}
           onChange={(event) =>
-            updateField("website", event.target.value)
+            updateField(
+              "website",
+              event.target.value
+            )
           }
         />
       </div>
 
-      {/* Error */}
+      {/* =====================================================
+          ERROR
+      ===================================================== */}
       {error && (
         <div
           role="alert"
@@ -454,7 +526,9 @@ export default function EnrollmentForm({
         </div>
       )}
 
-      {/* Submit */}
+      {/* =====================================================
+          SUBMIT
+      ===================================================== */}
       <div className="space-y-4">
         <button
           type="submit"
